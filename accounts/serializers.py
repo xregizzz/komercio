@@ -16,6 +16,7 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = [
+            "id",
             "username",
             "first_name",
             "last_name",
@@ -25,6 +26,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "is_superuser",
             "date_joined",
         ]
+        read_only_fields = ["id"]
 
     def create(self, validated_data: dict) -> Account:
         user = Account.objects.create_user(**validated_data)
