@@ -1,9 +1,12 @@
 from rest_framework.views import APIView, Request, Response, status
-from .serializers import LoginSerializer, AccountSerializer
+from .serializers import LoginSerializer, AccountSerializer, AccountSerializerManagement
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
 from .models import Account
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from .permissions import IsAccountOwner
 
 
 # Create your views here.
@@ -38,3 +41,19 @@ class AccountDetailsView(generics.ListAPIView):
     def get_queryset(self):
         max_accounts = self.kwargs["num"]
         return self.queryset.order_by("-date_joined")[0:max_accounts]
+
+
+class AccountUpdate(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAccountOwner]
+
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+
+
+class AccountManagement(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminUser]
+
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializerManagement

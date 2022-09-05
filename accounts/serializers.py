@@ -32,3 +32,12 @@ class AccountSerializer(serializers.ModelSerializer):
         user = Account.objects.create_user(**validated_data)
 
         return user
+
+
+class AccountSerializerManagement(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+
+    fields = [
+        "is_active",
+    ]
