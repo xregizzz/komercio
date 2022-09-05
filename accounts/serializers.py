@@ -34,10 +34,5 @@ class AccountSerializer(serializers.ModelSerializer):
         return user
 
 
-class AccountSerializerManagement(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-
-    fields = [
-        "is_active",
-    ]
+class AccountSerializerManagement(AccountSerializer):
+    is_active = serializers.BooleanField()
