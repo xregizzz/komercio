@@ -47,6 +47,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
 ]
 
 MY_APPS = [
@@ -86,6 +87,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "komercio.wsgi.application"
 
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Komercio",
+    "DESCRIPTION": "e-commerce API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -150,6 +158,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.Account"
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 2,
 }
